@@ -117,7 +117,7 @@ def train():
         for _ in range(max_steps):
             action, action_index = act(state)
             next_state, reward, done, _ = environment.step(action)
-            # environment.render()
+            environment.render()
             next_state, stacked_frames = stack_frames(stacked_frames, next_state, False)
             total_rewards += reward
 
@@ -135,7 +135,7 @@ def train():
             else:
                 memory.add((state, action_index, next_state, reward, done))
 
-            learn()
+            # learn()
             count += 1
 
             if count % save_iter == 0:

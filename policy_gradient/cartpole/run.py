@@ -2,7 +2,8 @@ import gym
 import numpy as np
 import torch
 
-from ai import Network
+from policy_gradient.ai import Network
+from policy_gradient.reward_utils import normalize_rewards
 
 max_episode = 1000
 num_steps = 500
@@ -14,17 +15,6 @@ output_shape = environment.action_space.n
 
 network = Network(input_shape[0], output_shape)
 optimizer = torch.optim.Adam(network.parameters(), lr=0.01)
-
-
-def normalize_rewards(episode_rewards):
-    accumulated_rewards = 0
-    discounted_rewards = np.zeros_like(episode_rewards)
-    for i in reversed(range(len(episode_rewards))):
-        accumulated_rewards = accumulated_rewards * gamma + episode_rewards[i]
-        discounted_rewards[i] = accumulated_rewards
-
-    normalized_rewards = discounted_rewards - np.mean(discounted_rewards) / np.std(discounted_rewards)
-    return normalized_rewards
 
 
 def learn(states, actions, discounted_rewards):
@@ -63,7 +53,7 @@ for current_episode in range(max_episode):
         episode_rewards.append(reward)
 
         if done:
-            discounted_rewards = normalize_rewards(episode_rewards)
+            discounted_rewards = normalize_rewards(episode_rewards, gamma)
             states = np.array(states)
             actions = np.array(actions)
             learn(states, actions, discounted_rewards)

@@ -38,7 +38,7 @@ memory = Memory(10000)
 optimizer = optim.Adam(dqn.parameters(), lr=0.001)
 
 try:
-    model_state_dict = torch.load('model/model.best.ckpt')
+    model_state_dict = torch.load('model/model.best.ckpt(1)')
     dqn.load_state_dict(model_state_dict)
 except FileNotFoundError:
     pass
@@ -129,7 +129,7 @@ def train():
 
                 if total_rewards > max_rewards:
                     max_rewards = total_rewards
-                    torch.save(dqn.state_dict(), 'model/model.best.ckpt')
+                    torch.save(dqn.state_dict(), 'model/model.best.ckpt(1)')
 
                 break
             else:

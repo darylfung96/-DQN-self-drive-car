@@ -4,7 +4,7 @@
 
 Through the help of a course in Udemy.
 
-Requires Python 3.6 
+Requires Python 3.5.2
 
 To run:
 
